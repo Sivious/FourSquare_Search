@@ -2,8 +2,6 @@ package sivianes.foursquaresearch.model;
 
 import android.location.Location;
 
-import org.json.JSONObject;
-
 /**
  * Created by Javier on 11/05/2016.
  */
