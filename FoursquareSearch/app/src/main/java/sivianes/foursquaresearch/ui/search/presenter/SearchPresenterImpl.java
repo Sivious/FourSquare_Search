@@ -2,8 +2,8 @@ package sivianes.foursquaresearch.ui.search.presenter;
 
 import android.content.Context;
 
-import sivianes.foursquaresearch.logic.connection.venues.GetVenuesFromLocation;
-import sivianes.foursquaresearch.logic.connection.venues.GetVenuesFromLocationImpl;
+import sivianes.foursquaresearch.logic.connection.venues.GetVenuesFromName;
+import sivianes.foursquaresearch.logic.connection.venues.GetVenuesFromNameImpl;
 import sivianes.foursquaresearch.logic.repository.RepositoryTokenStore;
 import sivianes.foursquaresearch.logic.repository.RepositoryTokenStoreImpl;
 
@@ -11,7 +11,7 @@ import sivianes.foursquaresearch.logic.repository.RepositoryTokenStoreImpl;
  * Created by Javier on 11/05/2016.
  */
 public class SearchPresenterImpl implements SearchPresenter {
-    GetVenuesFromLocation getVenuesFromLocation;
+    GetVenuesFromName getVenuesFromName;
     RepositoryTokenStore repositoryTokenStore;
     private Context context;
 
@@ -21,22 +21,20 @@ public class SearchPresenterImpl implements SearchPresenter {
 
 
     @Override
-    public void searchFromLocation() {
-        double exampleLatitude = 40.77180;
-        double exampleLongitude = -73.98377;
+    public void searchByName(String name) {
         String accessToken = getAccessToken();
 
-        getVenuesFromLocation = new GetVenuesFromLocationImpl();
+        getVenuesFromName = new GetVenuesFromNameImpl();
 
-        getVenuesFromLocation.execute(exampleLatitude, exampleLongitude, accessToken, new GetVenuesFromLocation.Callback() {
+        getVenuesFromName.execute(name, accessToken, new GetVenuesFromName.Callback() {
             @Override
             public void OnSuccess() {
-                System.out.println("");
+                System.out.println("Success");
             }
 
             @Override
             public void OnFailure() {
-                System.out.println("");
+                System.out.println("Failure");
             }
         });
 

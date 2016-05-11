@@ -85,61 +85,8 @@ public class HTTPRequestImpl implements HTTPRequest{
             InputStream stream = urlConnection.getInputStream();
 
             String response = streamToString(urlConnection.getInputStream());
-            JSONObject jsonObj = (JSONObject) new JSONTokener(response).nextValue();
-
-
-            JSONArray groups = (JSONArray) jsonObj.getJSONObject("response").getJSONArray("groups");
-            int length = groups.length();
 
             responseListener.onSuccessWebService(response);
-
-
-            /*if (length > 0) {
-                for (int i = 0; i < length; i++) {
-                    JSONObject group    = (JSONObject) groups.get(i);
-                    JSONArray items     = (JSONArray) group.getJSONArray("items");
-
-                    int ilength         = items.length();
-
-                    for (int j = 0; j < ilength; j++) {
-                        JSONObject item = (JSONObject) items.get(j);
-
-                        FsqVenue venue  = new FsqVenue();
-
-                        venue.id        = item.getString("id");
-                        venue.name      = item.getString("name");
-
-                        JSONObject location = (JSONObject) item.getJSONObject("location");
-
-                        Location loc    = new Location(LocationManager.GPS_PROVIDER);
-
-                        loc.setLatitude(Double.valueOf(location.getString("lat")));
-                        loc.setLongitude(Double.valueOf(location.getString("lng")));
-
-                        venue.location  = loc;
-                        venue.address   = location.getString("address");
-                        venue.distance  = location.getInt("distance");
-                        venue.herenow   = item.getJSONObject("hereNow").getInt("count");
-                        venue.type      = group.getString("type");
-
-                        venueList.add(venue);
-                    }
-                }
-            }*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             /*InputStreamReader isReader = new InputStreamReader(stream);
 
@@ -157,8 +104,6 @@ public class HTTPRequestImpl implements HTTPRequest{
 
         } catch (IOException e) {
             responseListener.onFailureServiceWithError();
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
     }
 

@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 
 import sivianes.foursquaresearch.R;
 import sivianes.foursquaresearch.ui.search.presenter.SearchPresenter;
@@ -15,7 +15,7 @@ import sivianes.foursquaresearch.ui.search.presenter.SearchPresenterImpl;
  * Created by Javier on 10/05/2016.
  */
 public class SearchActivity extends AppCompatActivity {
-    private TextView searchText;
+    private EditText searchText;
     private Button searchButton;
     private SearchPresenter presenter;
 
@@ -33,13 +33,18 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void init() {
-        searchText = (TextView) findViewById(R.id.search_text_venue);
+        searchText = (EditText) findViewById(R.id.search_text_venue);
         searchButton = (Button) findViewById(R.id.seatch_button);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.searchFromLocation();
+                if (searchText.getText() != null || searchText.getText().length() != 0){
+                    presenter.searchByName(searchText.getText().toString());
+                }else{
+                    //TODO: Add view with toast
+                }
+
             }
         });
     }

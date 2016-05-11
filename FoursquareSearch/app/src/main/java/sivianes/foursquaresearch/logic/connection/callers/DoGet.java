@@ -8,7 +8,7 @@ public interface DoGet {
     void execute(String url, String params, Callback callback);
 
     interface Callback {
-        void OnSuccess();
+        void OnSuccess(String response);
 
         void OnFailure();
     }

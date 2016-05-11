@@ -20,12 +20,12 @@ public class DoGetImpl implements DoGet {
                 httpRequest.get(url, params, new HTTPRequest.Callback() {
                     @Override
                     public void onFailureServiceWithError() {
-                        callback.OnSuccess();
+                        callback.OnFailure();
                     }
 
                     @Override
                     public void onSuccessWebService(String response) {
-                        callback.OnFailure();
+                        callback.OnSuccess(response);
                     }
 
                     @Override
