@@ -3,6 +3,8 @@
 ### INTRODUCTION
 I want to divide this dossier in two parts. Architecture and logic. 
 
+I want to add that I have found a bug in foursquare where nobody could create an app to get access to API. I reported it to Foursquare and after a couple of days they solved it 
+
 ### ARCHITECTURE
 Reading the test rules I saw MVC as a requirement, I was not sure if implementing a pure MVC was a good idea, mainly because it is "mostly" a web architecture oriented so I decided to orient the MVC architecture to an clean architecture approach and SOLID principles, because it gave me really good results previously and requirements seemed to be web orientend. 
 
