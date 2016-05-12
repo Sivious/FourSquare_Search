@@ -1,6 +1,12 @@
 package sivianes.foursquaresearch.ui.main.view;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +21,7 @@ import sivianes.foursquaresearch.ui.search.view.SearchActivity;
 public class MainActivity extends AppCompatActivity implements MainView {
 
 
+    private static final int PERMISSION_REQUEST_SET_UP_WIFI = 100;
     private Button loginButton;
     private MainPresenter presenter;
 
@@ -24,6 +31,14 @@ public class MainActivity extends AppCompatActivity implements MainView {
         setContentView(R.layout.activity_main);
         solveDependencies();
         init();
+        askPermissions();
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private void askPermissions() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_SET_UP_WIFI);
+        }
     }
 
     private void solveDependencies() {

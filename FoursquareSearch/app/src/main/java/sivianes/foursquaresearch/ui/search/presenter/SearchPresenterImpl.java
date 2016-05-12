@@ -1,7 +1,6 @@
 package sivianes.foursquaresearch.ui.search.presenter;
 
 import android.content.Context;
-import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 
@@ -12,6 +11,7 @@ import sivianes.foursquaresearch.logic.connection.venues.GetVenuesFromNameImpl;
 import sivianes.foursquaresearch.logic.repository.RepositoryTokenStore;
 import sivianes.foursquaresearch.logic.repository.RepositoryTokenStoreImpl;
 import sivianes.foursquaresearch.model.Venue;
+import sivianes.foursquaresearch.ui.search.view.SearchActivity;
 
 /**
  * Created by Javier on 11/05/2016.
@@ -21,8 +21,7 @@ public class SearchPresenterImpl implements SearchPresenter {
     GetTrendingVenuesFromLocation getTrendingVenuesFromLocation;
     RepositoryTokenStore repositoryTokenStore;
     private Context context;
-    private double latitude = 40.7718;
-    private double longitude = -73.98377;
+    private SearchActivity view;
 
     public SearchPresenterImpl(Context context) {
         this.context = context;
@@ -30,7 +29,12 @@ public class SearchPresenterImpl implements SearchPresenter {
 
 
     @Override
-    public void searchByName(String name) {
+    public void setView(SearchActivity view) {
+        this.view = view;
+    }
+
+    @Override
+    public void searchByName(double latitude, double longitude, String name) {
         String accessToken = getAccessToken();
 
         getVenuesFromName = new GetVenuesFromNameImpl();
@@ -39,7 +43,10 @@ public class SearchPresenterImpl implements SearchPresenter {
             @Override
             public void OnSuccess(Venue venue) {
                 System.out.println("Success");
-                searchVenuesFromLocation(venue);
+                if (venue != null) {
+                    view.centerMapInLocation(venue.location.getLatitude(), venue.location.getLongitude());
+                    searchVenuesFromLocation(venue);
+                }
             }
 
             @Override
@@ -59,7 +66,7 @@ public class SearchPresenterImpl implements SearchPresenter {
             @Override
             public void OnSuccess(ArrayList<Venue> venues) {
                 venues.add(venue);
-                //view.paintVenues(venues);
+                view.paintVenues(venues);
             }
 
             @Override
