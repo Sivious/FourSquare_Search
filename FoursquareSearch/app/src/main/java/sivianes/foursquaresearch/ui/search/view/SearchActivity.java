@@ -13,6 +13,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -24,6 +25,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -106,11 +108,11 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
             @Override
             public void onClick(View v) {
                 if (searchText.getText() != null || searchText.getText().length() != 0) {
+
                     presenter.searchByName(latitude, longitude, searchText.getText().toString());
                 } else {
-                    //TODO: Add view with toast
+                    showMessage(getApplicationContext().getString(R.string.search_empty_string));
                 }
-
             }
         });
     }
@@ -126,6 +128,7 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
         this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                googleMap.clear();
                 if (venues != null && googleMap != null) {
                     for (Venue venue : venues) {
                         googleMap.addMarker(new MarkerOptions().position(new LatLng(venue.location.getLatitude(), venue.location.getLongitude())).title(venue.name));
@@ -165,6 +168,14 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
                 this.longitude = lastKnownLocation.getLongitude();
             }
         }
+    }
+
+    @Override
+    public void showMessage(String message){
+        Context context = getApplicationContext();
+
+        Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        toast.show();
     }
 
     @Override

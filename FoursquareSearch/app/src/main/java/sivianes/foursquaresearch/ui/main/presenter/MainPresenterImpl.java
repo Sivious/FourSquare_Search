@@ -2,6 +2,7 @@ package sivianes.foursquaresearch.ui.main.presenter;
 
 import android.content.Intent;
 
+import sivianes.foursquaresearch.R;
 import sivianes.foursquaresearch.framework.foursquare.connection.PerformFourSquareConnection;
 import sivianes.foursquaresearch.framework.foursquare.connection.PerformFourSquareConnectionImpl;
 import sivianes.foursquaresearch.framework.foursquare.responsehandler.HandleFoursquareConnectionResponse;
@@ -37,13 +38,12 @@ public class MainPresenterImpl implements MainPresenter {
             performFourSquareConnection.execute(new PerformFourSquareConnection.Callback() {
                 @Override
                 public void OnSuccess(Intent intent) {
-                    System.out.println("Por aqui pasa");
                     view.startActivityIntentWithResult(intent, view.REQUEST_CODE_FSQ_CONNECT);
                 }
 
                 @Override
                 public void OnFailure() {
-                    System.out.println("Por aqui pasa");
+                    view.showToast(view.getApplicationContext().getString(R.string.main_message_error));
                 }
             });
         }
@@ -59,23 +59,22 @@ public class MainPresenterImpl implements MainPresenter {
         handleFoursquareConnectionResponse.execute(resultCode, data, view.getApplicationContext(), new HandleFoursquareConnectionResponse.Callback() {
             @Override
             public void OnSuccess(Intent intent) {
-                //TODO: This line breaks the MVC architecture
                 view.startActivityForResult(intent, view.REQUEST_CODE_FSQ_TOKEN_EXCHANGE);
             }
 
             @Override
-            public void OnCanceled(String error) {
-                view.showToast(error);
+            public void OnCanceled() {
+                view.showToast(view.getApplicationContext().getString(R.string.main_message_canceled_by_user));
             }
 
             @Override
-            public void OnDenied(String error) {
-                view.showToast(error);
+            public void OnDenied() {
+                view.showToast(view.getApplicationContext().getString(R.string.main_message_denied_by_user));
             }
 
             @Override
-            public void OnError(String error) {
-                view.showToast(error);
+            public void OnError() {
+                view.showToast(view.getApplicationContext().getString(R.string.main_message_error));
             }
         });
     }
@@ -90,8 +89,8 @@ public class MainPresenterImpl implements MainPresenter {
             }
 
             @Override
-            public void OnError(String message) {
-                view.showToast(message);
+            public void OnError() {
+                view.showToast(view.getApplicationContext().getString(R.string.main_message_error));
             }
         });
     }

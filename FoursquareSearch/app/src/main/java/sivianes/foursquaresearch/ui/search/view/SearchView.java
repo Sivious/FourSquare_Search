@@ -11,4 +11,5 @@ public interface SearchView {
 
     void paintVenues(ArrayList<Venue> venues);
     void centerMapInLocation(double latitude, double longitude);
+    void showMessage(String message);
 }

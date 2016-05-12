@@ -10,6 +10,6 @@ public interface HandlerFoursquareTokenResponse {
 
     interface Callback{
         void OnSuccess(String token);
-        void OnError(String message);
+        void OnError();
     }
 }

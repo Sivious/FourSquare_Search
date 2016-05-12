@@ -2,6 +2,7 @@ package sivianes.foursquaresearch.framework.foursquare.responsehandler;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.foursquare.android.nativeoauth.FoursquareCancelException;
 import com.foursquare.android.nativeoauth.FoursquareDenyException;
@@ -17,6 +18,7 @@ import sivianes.foursquaresearch.framework.foursquare.constants.FoursquareConsta
  * Created by Javier on 10/05/2016.
  */
 public class HandleFoursquareConnectionResponseImpl implements HandleFoursquareConnectionResponse {
+    private static final String TAG = "HandleConnectionRespons";
     private Context context;
 
     public HandleFoursquareConnectionResponseImpl(Context context) {
@@ -30,39 +32,34 @@ public class HandleFoursquareConnectionResponseImpl implements HandleFoursquareC
         Exception exception = codeResponse.getException();
 
         if (exception == null) {
-            // Success.
             String code = codeResponse.getCode();
             performTokenExchange(code, callback);
 
         } else {
             if (exception instanceof FoursquareCancelException) {
-                // Cancel.
-                // TODO: error to String.xml
-                callback.OnCanceled("Canceled");
+                callback.OnCanceled();
 
             } else if (exception instanceof FoursquareDenyException) {
-                // Deny.
-                // TODO: error to String.xml
-                callback.OnDenied("Denied");
+                callback.OnDenied();
 
             } else if (exception instanceof FoursquareOAuthException) {
-                // OAuth error.
                 String errorMessage = exception.getMessage();
                 String errorCode = ((FoursquareOAuthException) exception).getErrorCode();
+                Log.i(TAG, errorMessage + " [" + errorCode + "]");
 
-                callback.OnError(errorMessage + " [" + errorCode + "]");
+                callback.OnError();
 
             } else if (exception instanceof FoursquareUnsupportedVersionException) {
-                // Unsupported Fourquare app version on the device.
-                callback.OnError(exception.toString());
+                Log.i(TAG, exception.toString());
+                callback.OnError();
 
             } else if (exception instanceof FoursquareInvalidRequestException) {
-                // Invalid request.
-                callback.OnError(exception.toString());
+                Log.i(TAG, exception.toString());
+                callback.OnError();
 
             } else {
-                // Error.
-                callback.OnError(exception.toString());
+                Log.i(TAG, exception.toString());
+                callback.OnError();
             }
         }
     }

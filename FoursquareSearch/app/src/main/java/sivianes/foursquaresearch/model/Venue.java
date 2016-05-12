@@ -9,8 +9,4 @@ public class Venue {
     public String id;
     public String name;
     public Location location;
-    public String address;
-    public int distance;
-    public int hereNow;
-    public String type;
 }

@@ -2,6 +2,7 @@ package sivianes.foursquaresearch.logic.connection.venues;
 
 import android.location.Location;
 import android.location.LocationManager;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,6 +20,7 @@ import sivianes.foursquaresearch.model.Venue;
  * Created by Javier on 11/05/2016.
  */
 public class GetTrendingVenuesFromLocationImpl implements GetTrendingVenuesFromLocation {
+    private static final String TAG = "GetTrendVenuesFromLoc";
     DoGet doGet;
 
     @Override
@@ -28,7 +30,6 @@ public class GetTrendingVenuesFromLocationImpl implements GetTrendingVenuesFromL
         final String url = "/venues/trending?client_id=" + FoursquareConstants.CLIENT_ID +
                 "&client_secret=" + FoursquareConstants.CLIENT_SECRET +
                 "&ll=" + String.valueOf(latitude) + "," + String.valueOf(longitude) +
-                //"&query=sushi" +
                 "&v=" + FoursquareConstants.CLIENT_VERSION +
                 "&m=" + FoursquareConstants.CLIENT_API;
 
@@ -80,18 +81,12 @@ public class GetTrendingVenuesFromLocationImpl implements GetTrendingVenuesFromL
 
                     venue.location = loc;
 
-                    //TODO: Delete unused fields from class and here
-                    //venue.address = location.getString("address");
-                    //venue.distance = location.getInt("distance");
-                    //venue.hereNow = jsonVenue.getJSONObject("hereNow").getInt("count");
-                    //venue.type = jsonVenue.getString("type");
-
                     venuesArray.add(venue);
                 }
             }
 
         } catch (JSONException e) {
-            System.out.println("Hola");
+            Log.i(TAG, e.getMessage());
             throw new RuntimeException(e);
         }
 

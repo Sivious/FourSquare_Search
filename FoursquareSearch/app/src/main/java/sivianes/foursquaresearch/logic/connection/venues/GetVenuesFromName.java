@@ -11,5 +11,6 @@ public interface GetVenuesFromName {
     interface Callback{
         void OnSuccess(Venue venue);
         void OnFailure();
+        void OnNoResults();
     }
 }

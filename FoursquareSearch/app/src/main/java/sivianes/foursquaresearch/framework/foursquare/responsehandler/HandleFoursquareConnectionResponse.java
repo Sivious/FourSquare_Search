@@ -12,8 +12,8 @@ public interface HandleFoursquareConnectionResponse {
 
     interface Callback{
         void OnSuccess(Intent intent);
-        void OnCanceled(String error);
-        void OnDenied(String error);
-        void OnError(String error);
+        void OnCanceled();
+        void OnDenied();
+        void OnError();
     }
 }

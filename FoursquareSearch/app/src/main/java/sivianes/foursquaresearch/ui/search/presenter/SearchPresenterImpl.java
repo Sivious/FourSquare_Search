@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.util.ArrayList;
 
+import sivianes.foursquaresearch.R;
 import sivianes.foursquaresearch.logic.connection.venues.GetTrendingVenuesFromLocation;
 import sivianes.foursquaresearch.logic.connection.venues.GetTrendingVenuesFromLocationImpl;
 import sivianes.foursquaresearch.logic.connection.venues.GetVenuesFromName;
@@ -42,7 +43,6 @@ public class SearchPresenterImpl implements SearchPresenter {
         getVenuesFromName.execute(latitude, longitude, name, accessToken, new GetVenuesFromName.Callback() {
             @Override
             public void OnSuccess(Venue venue) {
-                System.out.println("Success");
                 if (venue != null) {
                     view.centerMapInLocation(venue.location.getLatitude(), venue.location.getLongitude());
                     searchVenuesFromLocation(venue);
@@ -51,7 +51,12 @@ public class SearchPresenterImpl implements SearchPresenter {
 
             @Override
             public void OnFailure() {
-                System.out.println("Failure");
+                view.showMessage(view.getApplicationContext().getString(R.string.search_message_searching));
+            }
+
+            @Override
+            public void OnNoResults() {
+                view.showMessage(view.getApplicationContext().getString(R.string.search_message_no_results));
             }
         });
 
@@ -71,7 +76,7 @@ public class SearchPresenterImpl implements SearchPresenter {
 
             @Override
             public void OnFailure() {
-
+                view.showMessage(view.getApplicationContext().getString(R.string.search_message_searching));
             }
         });
     }

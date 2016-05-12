@@ -8,8 +8,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import java.util.ArrayList;
-
 import sivianes.foursquaresearch.framework.foursquare.constants.FoursquareConstants;
 import sivianes.foursquaresearch.logic.connection.callers.DoGet;
 import sivianes.foursquaresearch.logic.connection.callers.DoGetImpl;
@@ -30,10 +28,7 @@ public class GetVenuesFromNameImpl implements GetVenuesFromName {
                 "&client_secret=" + FoursquareConstants.CLIENT_SECRET +
                 "&v=" + FoursquareConstants.CLIENT_VERSION +
                 "&ll=" + String.valueOf(latitude) + "," + String.valueOf(longitude) +
-                //"&intent=global" +
                 "&query=" + name;
-                //"&m=" + FoursquareConstants.CLIENT_API;
-
 
         doGet.execute(url, "", new DoGet.Callback() {
             @Override
@@ -42,8 +37,8 @@ public class GetVenuesFromNameImpl implements GetVenuesFromName {
 
                 if (venue != null) {
                     callback.OnSuccess(venue);
-                }else{
-                    callback.OnFailure();
+                } else {
+                    callback.OnNoResults();
                 }
             }
 
@@ -66,32 +61,25 @@ public class GetVenuesFromNameImpl implements GetVenuesFromName {
             int length = venues.length();
 
             if (length > 0) {
-                //for (int i = 0; i < length; i++) {
                 // I only take the first of the array
-                    JSONObject jsonVenue = (JSONObject) venues.get(0);
+                JSONObject jsonVenue = (JSONObject) venues.get(0);
 
-                    venue.id = jsonVenue.getString("id");
-                    venue.name = jsonVenue.getString("name");
+                venue.id = jsonVenue.getString("id");
+                venue.name = jsonVenue.getString("name");
 
-                    JSONObject location = (JSONObject) jsonVenue.getJSONObject("location");
+                JSONObject location = (JSONObject) jsonVenue.getJSONObject("location");
 
-                    Location loc = new Location(LocationManager.GPS_PROVIDER);
+                Location loc = new Location(LocationManager.GPS_PROVIDER);
 
-                    loc.setLatitude(Double.valueOf(location.getString("lat")));
-                    loc.setLongitude(Double.valueOf(location.getString("lng")));
+                loc.setLatitude(Double.valueOf(location.getString("lat")));
+                loc.setLongitude(Double.valueOf(location.getString("lng")));
 
-                    venue.location = loc;
+                venue.location = loc;
 
-                    //TODO: Delete unused fields from class and here
-                    //venue.address = location.getString("address");
-                    //venue.distance = location.getInt("distance");
-                    //venue.hereNow = jsonVenue.getJSONObject("hereNow").getInt("count");
-                    //venue.type = jsonVenue.getString("type");
-                //}
+                return venue;
+            } else {
+                return null;
             }
-
-            return venue;
-
         } catch (JSONException e) {
             e.printStackTrace();
             return venue;

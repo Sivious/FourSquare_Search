@@ -3,4 +3,10 @@
     <string name="login">Login with foursquare</string>
     <string name="search">Search</string>
     <string name="enter_venue">Enter venue</string>
+    <string name="search_empty_string">Try to fill the field \"Search\"</string>
+    <string name="search_message_searching">Error while searching the venue</string>
+    <string name="search_message_no_results">No results found</string>
+    <string name="main_message_canceled_by_user">Connection canceled</string>
+    <string name="main_message_denied_by_user">Connection denied</string>
+    <string name="main_message_error">Error while trying to connect</string>
 </resources>
